@@ -1,0 +1,122 @@
+PROTOCOLE BABEL
+---------------
+
+
+
+
+
+
+Code Opération
+--------------
+unsigned int    ~   16 bytes    ~   type
+
+
+
+
+
+
+
+------- AUTHENTIFICATION -------
+
+- Connect
+=== Client To Server ===
+### Packet UserWhantToLogin ###     200     ###
+unsigned int    ~   16 bytes    ~   type
+unsigned int    ~   64 bytes    ~   portUdp
+unsigned int    ~   64 bytes    ~   usernameLength
+char []     ~   (4096 - 16 - 64 - 64)   3 952 bytes    ~   username
+
+
+
+- Connect Response
+=== Server To Client ===
+### Packet ServerLoginResponse ###     201     ###
+unsigned int    ~   16 bytes    ~   type
+unsigned int    ~    8 bytes    ~   response
+unsigned int    ~   64 bytes    ~   userId
+unsigned int    ~   64 bytes    ~   msgLength
+char []     ~   (4096 - 16 - 8 - 64 - 64)   3 944 bytes    ~   msg
+
+
+
+- Disconnect
+=== Client To Server ===
+### Packet AcceptToLogout ###     204     ###
+unsigned int    ~   16 bytes    ~   type
+unsigned int    ~    8 bytes    ~   response
+unsigned int    ~   64 bytes    ~   userId
+
+
+
+
+
+
+
+
+
+------------   CALL  ------------
+
+- Call someone
+=== Client To Server ===
+### Packet UserWhantToCall ###     203     ###
+unsigned int    ~   16 bytes    ~   type
+unsigned int    ~   64 bytes    ~   fromId
+unsigned int    ~   64 bytes    ~   destId
+
+
+
+- Call response, can you call this user or not
+=== Server To Client ===
+### Packet ServerResponse ###     100     ###
+unsigned int    ~   16 bytes    ~   type
+unsigned int    ~    8 bytes    ~   response
+unsigned int    ~   64 bytes    ~   msgLength
+char []     ~   (4096 - 16 - 8 - 64)    4008 bytes    ~   msg
+
+
+
+- Say to user someone call
+=== Server To Client ===
+### Packet ServerCallRequest ###     101     ###
+unsigned int    ~   16 bytes    ~   type
+unsigned int    ~   64 bytes    ~   fromId
+unsigned int    ~   64 bytes    ~   destId
+
+
+
+- Pick-up the call or not
+=== Client To Server ===
+### Packet UserAcceptCall ###     102     ###
+unsigned int    ~   16 bytes    ~   type
+unsigned int    ~    8 bytes    ~   response
+unsigned int    ~   64 bytes    ~   destId
+
+
+
+- If client2 pick-up the call, Say to client1, client2 their address and to launch the call
+=== Server To Client ===
+### Packet LaunchCall ###     103     ###
+unsigned int    ~   16 bytes    ~   type
+unsigned int    ~   64 bytes    ~   fromId
+unsigned int    ~   64 bytes    ~   destId
+unsigned int    ~   64 bytes    ~   portDest
+unsigned int    ~   64 bytes    ~   ipLength
+char []     ~   (4096 - 16 - 64 - 64 - 64 - 64)   3 824 bytes    ~   ipDest
+
+
+
+- Hang up the call
+=== Client To Server ===
+### Packet UserHangUp ###     104     ###
+unsigned int    ~   16 bytes    ~   type
+unsigned int    ~   64 bytes    ~   fromId
+unsigned int    ~   64 bytes    ~   destId
+
+
+
+- Say to client, the call was hang up to close the call both side
+=== Server To Client ===
+### Packet UserHangUp ###     104     ###
+unsigned int    ~   16 bytes    ~   type
+unsigned int    ~   64 bytes    ~   fromId
+unsigned int    ~   64 bytes    ~   destId

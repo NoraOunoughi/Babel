@@ -1,0 +1,23 @@
+[requires]
+portaudio/19.7.0@bincrafters/stable
+opus/1.3.1
+qt/5.15.2
+asio/1.19.2
+
+[options]
+portaudio:shared=True
+opus:shared=True
+qt:with_odbc=False
+qt:shared=True
+
+[imports]
+bin, *.dll -> bin
+lib, *.dylib* -> lib
+lib, *.so* -> lib
+include, * -> include
+bin/archdatadir/plugins/platforms, * -> ./bin/platforms
+
+[generators]
+cmake
+cmake_paths
+cmake_find_package
